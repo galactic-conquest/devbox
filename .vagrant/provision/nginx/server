@@ -1,0 +1,52 @@
+server {
+    listen 80;
+    server_name dev.phpmyadmin.com;
+
+    root /usr/share/phpmyadmin;
+    index  index.php index.html index.htm;
+
+    error_log off;
+    access_log off;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+    }
+}
+
+server {
+    listen 80;
+    server_name "~^dev\..+\.(de|com)";
+
+    root /var/www/$host/public;
+    index index.php index.html;
+
+    error_log /var/log/nginx/access.log notice;
+    access_log /var/log/nginx/error.log;
+    rewrite_log on;
+
+    sendfile off;
+
+     # Some basic cache-control for static files to be sent to the browser
+    location ~* \.(?:ico|gif|jpg|jpeg|png|woff|ttf|otf|svg|woff2|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+    }
+
+     # if file not exist, redirect to index.php
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # php fpm
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
