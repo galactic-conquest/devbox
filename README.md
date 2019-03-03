@@ -63,3 +63,11 @@ vagrant ssh // Login to the vagrant machine
 vagrant halt // stop vagrant machine
 vagrant up // start vagrant machine (provisioning will start only once)
 ```
+
+Database credentials:
+```
+dev.phpmyadmin.com
+username: dev
+password: dev
+```
+
