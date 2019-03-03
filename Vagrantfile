@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, :inline => "sudo service nginx restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service mysql restart", run: "always"
     config.vm.provision :shell, :inline => "sudo nohup redis-commander > /dev/null 2>&1 & ", run: "always"
+    config.vm.provision :shell, :inline => "export XDEBUG_CONFIG='idekey=PHPSTORM remote_host=10.0.2.2'", run: "always"
 
     config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "2048"]
