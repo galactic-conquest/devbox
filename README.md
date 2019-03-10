@@ -16,7 +16,7 @@ https://www.vagrantup.com/downloads.html
 ```
 
 ### 2. Plugins
-1\. Open cmd in administrator mode and CD to the root directory where the "Vagrantfile" is.
+1\. Open cmd in administrator mode and CD to the root directory where the "Vagrantfile" is.\
 2\. Execute following commands one by one.
 ```
 vagrant plugin install vagrant-bindfs
