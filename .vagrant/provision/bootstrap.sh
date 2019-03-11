@@ -74,15 +74,15 @@ sudo apt-get install redis-server -y
 sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 # install project dependencies
-composer update -d /var/www/dev.galactic-conquest.com
+composer update -d /var/www/dev.galactic-conquest.net
 
 # install project database
 sudo mysql -udev -pdev -e "CREATE DATABASE gc;"
-php /var/www/dev.galactic-conquest.com/vendor/bin/inferno orm:schema-tool:create
-php /var/www/dev.galactic-conquest.com/vendor/bin/inferno app:doctrine:fixtures
+php /var/www/dev.galactic-conquest.net/vendor/bin/inferno orm:schema-tool:create
+php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:doctrine:fixtures
 
 # install project cron job
 sudo crontab -u www-data -l > mycron
-echo "*/1 * * * * php /var/www/dev.galactic-conquest.com/vendor/bin/inferno app:tick:run" >> mycron
+echo "*/1 * * * * php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:tick:run" >> mycron
 sudo crontab -u www-data mycron
 sudo rm mycron

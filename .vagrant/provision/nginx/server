@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name dev.phpmyadmin.com;
+    server_name dev.phpmyadmin.net;
 
     root /usr/share/phpmyadmin;
     index  index.php index.html index.htm;
@@ -20,7 +20,7 @@ server {
 
 server {
     listen 80;
-    server_name "~^dev\..+\.(de|com)";
+    server_name "~^dev\..+\.(de|com|net)";
 
     root /var/www/$host/public;
     index index.php;
