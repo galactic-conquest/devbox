@@ -12,11 +12,10 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, :inline => "sudo service php7.2-fpm restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service nginx restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service mysql restart", run: "always"
-    config.vm.provision :shell, :inline => "export XDEBUG_CONFIG='idekey=PHPSTORM remote_host=10.0.2.2'", run: "always"
 
     config.trigger.after :up do |trigger|
       trigger.info = "Running fsnotify"
-      trigger.run = {inline: "start /B vagrant fsnotify > nul"}
+      trigger.run = {inline: "vagrant fsnotify"}
     end
 
     config.vm.provider :virtualbox do |vb|

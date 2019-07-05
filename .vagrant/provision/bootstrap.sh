@@ -89,3 +89,6 @@ sudo rm mycron
 
 # start in project dir on vagrant ssh
 echo "cd /var/www/dev.galactic-conquest.net" >> /home/vagrant/.bashrc
+
+# debug console commands
+echo "export XDEBUG_CONFIG='idekey=PHPSTORM remote_host=10.0.2.2'" >> /home/vagrant/.bashrc
