@@ -86,3 +86,6 @@ sudo crontab -u www-data -l > mycron
 echo "*/1 * * * * php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:tick:run" >> mycron
 sudo crontab -u www-data mycron
 sudo rm mycron
+
+# start in project dir on vagrant ssh
+echo "cd /var/www/dev.galactic-conquest.net" >> /home/vagrant/.bashrc
