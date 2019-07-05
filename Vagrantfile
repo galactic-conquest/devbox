@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-    config.vm.box = "ubuntu/cosmic64"
+    config.vm.box = "ubuntu/disco64"
     config.vm.network "forwarded_port", guest: 80, host: 1234
     config.vm.network "private_network", ip: "192.168.98.100"
     config.vm.provision :shell, :path => ".vagrant/provision/bootstrap.sh"
@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
     config.winnfsd.gid = 33
 
     config.vm.provision :shell, :inline => "sudo service redis restart", run: "always"
-    config.vm.provision :shell, :inline => "sudo service php7.2-fpm restart", run: "always"
+    config.vm.provision :shell, :inline => "sudo service php7.3-fpm restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service nginx restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service mysql restart", run: "always"
 
