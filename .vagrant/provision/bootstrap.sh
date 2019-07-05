@@ -11,17 +11,17 @@ sudo apt-get upgrade -y
 # php
 sudo apt-get install python-software-properties -y
 sudo apt-get update
-sudo apt-get install php7.2 -y
+sudo apt-get install php7.3 -y
 
 # php extensions
-sudo apt-get install -y php-memcached php-redis php-pear php-xdebug php-sass php-zmq php7.2-fpm php7.2-gd php7.2-intl php7.2-opcache php7.2-dev
-sudo apt-get install -y php7.2-cli php7.2-mysql php7.2-curl php7.2-json php7.2-cgi php7.2-mbstring php7.2-zip php7.2-xml php7.2-bcmath
+sudo apt-get install -y php-memcached php-redis php-pear php-xdebug php-sass php-zmq php7.3-fpm php7.3-gd php7.3-intl php7.3-opcache php7.3-dev
+sudo apt-get install -y php7.3-cli php7.3-mysql php7.3-curl php7.3-json php7.3-cgi php7.3-mbstring php7.3-zip php7.3-xml php7.3-bcmath
 
 # php.ini dev
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.2/fpm/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.2/fpm/php.ini
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.3/fpm/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.3/fpm/php.ini
 
-sudo cat << EOF | sudo tee -a /etc/php/7.2/mods-available/xdebug.ini
+sudo cat << EOF | sudo tee -a /etc/php/7.3/mods-available/xdebug.ini
 xdebug.default_enable=1
 xdebug.idekey="PHPSTORM"
 xdebug.remote_enable=1
@@ -73,22 +73,23 @@ sudo apt-get install redis-server -y
 # set local timezone
 sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
-# install project dependencies
-composer update -d /var/www/dev.galactic-conquest.net
-
 # install project database
 sudo mysql -udev -pdev -e "CREATE DATABASE gc;"
 php /var/www/dev.galactic-conquest.net/vendor/bin/inferno orm:schema-tool:create
 php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:doctrine:fixtures
-
-# install project cron job
-sudo crontab -u www-data -l > mycron
-echo "*/1 * * * * php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:tick:run" >> mycron
-sudo crontab -u www-data mycron
-sudo rm mycron
 
 # start in project dir on vagrant ssh
 echo "cd /var/www/dev.galactic-conquest.net" >> /home/vagrant/.bashrc
 
 # debug console commands
 echo "export XDEBUG_CONFIG='idekey=PHPSTORM remote_host=10.0.2.2'" >> /home/vagrant/.bashrc
+
+# install project dependencies and install project
+composer install -d /var/www/dev.galactic-conquest.net
+composer setup -d /var/www/dev.galactic-conquest.net
+
+# install project cron job
+sudo crontab -u www-data -l > mycron
+echo "*/1 * * * * php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:tick:run" >> mycron
+sudo crontab -u www-data mycron
+sudo rm mycron

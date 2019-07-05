@@ -16,7 +16,7 @@ https://www.vagrantup.com/downloads.html
 ```
 
 ### 2. Plugins
-1\. Open cmd in administrator mode and CD to the root directory where the "Vagrantfile" is.\
+1\. Open Windows shell (cmd) in administrator mode and CD to the root directory where the "Vagrantfile" is.\
 2\. Execute following commands one by one.
 ```
 vagrant plugin install vagrant-bindfs
@@ -47,19 +47,22 @@ Windows: C:\Windows\System32\drivers\etc\hosts
 ```
 
 ### 5. Start Vagrant
-1\. Open cmd in administrator mode windows and CD to the root dir where the "Vagrantfile" is.\
+1\. Open Windows shell (cmd) in administrator mode and CD to the root dir where the "Vagrantfile" is.\
 2\. Execute command which creates the virtual machine. This can take a while at the first run.
 ```
 vagrant up
 ```
 
-3\. Login to virtual machine and open a shell.
+3\. Login to virtual machine and open a unix shell.
 ```
 vagrant ssh
 ```
 
+4\. Congrats. You are good to go and start development.
+5\. Execute exit on unix shell to get back to windows shell. To stop your virtual server type "vagrant halt".
+
 ### 6. Additional
-Further vagrant commands (windows). 
+Further vagrant commands (windows shell). 
 ```
 vagrant ssh // Login to the virtual machine and opens a unix shell.
 vagrant halt // stops vagrant machine

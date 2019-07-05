@@ -13,10 +13,10 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, :inline => "sudo service nginx restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service mysql restart", run: "always"
 
-    config.trigger.after :up do |trigger|
-      trigger.info = "Running fsnotify"
-      trigger.run = {inline: "vagrant fsnotify"}
-    end
+#    config.trigger.after :up do |trigger|
+#      trigger.info = "Running fsnotify"
+#      trigger.run = {inline: "vagrant fsnotify"}
+#    end
 
     config.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", "2048"]
