@@ -23,6 +23,7 @@ vagrant plugin install vagrant-bindfs
 vagrant plugin install vagrant-vbguest
 vagrant plugin install vagrant-winnfsd
 vagrant plugin install vagrant-fsnotify
+vagrant plugin install vagrant-share
 ```
 
 ### 3. Hosts

@@ -27,9 +27,11 @@ xdebug.idekey="PHPSTORM"
 xdebug.remote_enable=1
 xdebug.remote_port=9000
 xdebug.remote_connect_back=1
-xdebug.remote_autostart=0
 xdebug.remote_host=192.168.98.100
-xdebug.remote_autostart=1
+xdebug.remote_autostart=0
+xdebug.profiler_enable = 0;
+xdebug.profiler_enable_trigger = 1;
+xdebug.profiler_output_dir = "/var/www/dev.galactic-conquest.net/data/profile"
 EOF
 
 # composer
@@ -73,10 +75,8 @@ sudo apt-get install redis-server -y
 # set local timezone
 sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
-# install project database
+// create db
 sudo mysql -udev -pdev -e "CREATE DATABASE gc;"
-php /var/www/dev.galactic-conquest.net/vendor/bin/inferno orm:schema-tool:create
-php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:doctrine:fixtures
 
 # start in project dir on vagrant ssh
 echo "cd /var/www/dev.galactic-conquest.net" >> /home/vagrant/.bashrc
