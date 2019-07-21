@@ -31,7 +31,7 @@ xdebug.remote_host=192.168.98.100
 xdebug.remote_autostart=0
 xdebug.profiler_enable = 0;
 xdebug.profiler_enable_trigger = 1;
-xdebug.profiler_output_dir = "/var/www/dev.galactic-conquest.net/data/profile"
+xdebug.profiler_output_dir = "/var/www/galactic-conquest.test/data/profile"
 EOF
 
 # composer
@@ -45,6 +45,12 @@ sudo apt-get install nginx -y
 sudo rm /etc/nginx/sites-available/default
 sudo rm /etc/nginx/sites-enabled/default
 
+# forum
+sudo cp /vagrant/.vagrant/provision/nginx/forum /etc/nginx/sites-available/forum
+sudo chmod 644 /etc/nginx/sites-available/forum
+sudo ln -s /etc/nginx/sites-available/forum /etc/nginx/sites-enabled/forum
+
+# *.test
 sudo cp /vagrant/.vagrant/provision/nginx/server /etc/nginx/sites-available/server
 sudo chmod 644 /etc/nginx/sites-available/server
 sudo ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled/server
@@ -59,15 +65,16 @@ sudo service mysql restart
 
 # phpmyadmin
 sudo apt-get install unzip -y
-sudo wget https://files.phpmyadmin.net/phpMyAdmin/4.8.5/phpMyAdmin-4.8.5-all-languages.zip
-sudo unzip phpMyAdmin-4.8.5-all-languages.zip
-sudo mv phpMyAdmin-4.8.5-all-languages /usr/share/phpmyadmin
+sudo wget https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.zip
+sudo unzip phpMyAdmin-4.9.0.1-all-languages.zip
+sudo mv phpMyAdmin-4.9.0.1-all-languages /usr/share/phpmyadmin
 sudo chmod -R 0755 /usr/share/phpmyadmin
-sudo rm phpMyAdmin-4.8.5-all-languages.zip
+sudo rm phpMyAdmin-4.9.0.1-all-languages.zip
 
 # nodejs
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
 sudo apt-get install -y nodejs
+sudo apt-get install -y webpack
 
 # redis
 sudo apt-get install redis-server -y
@@ -77,19 +84,20 @@ sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Europe/Berlin /etc/loca
 
 // create db
 sudo mysql -udev -pdev -e "CREATE DATABASE gc;"
+sudo mysql -udev -pdev -e "CREATE DATABASE gc_forum;"
 
 # start in project dir on vagrant ssh
-echo "cd /var/www/dev.galactic-conquest.net" >> /home/vagrant/.bashrc
+echo "cd /var/www/galactic-conquest.test" >> /home/vagrant/.bashrc
 
 # debug console commands
 echo "export XDEBUG_CONFIG='idekey=PHPSTORM remote_host=10.0.2.2'" >> /home/vagrant/.bashrc
 
 # install project dependencies and install project
-composer install -d /var/www/dev.galactic-conquest.net
-composer setup -d /var/www/dev.galactic-conquest.net
+composer install -d /var/www/galactic-conquest.test
+composer setup -d /var/www/galactic-conquest.test
 
 # install project cron job
 sudo crontab -u www-data -l > mycron
-echo "*/1 * * * * php /var/www/dev.galactic-conquest.net/vendor/bin/inferno app:tick:run" >> mycron
+echo "*/1 * * * * php /var/www/galactic-conquest.test/vendor/bin/inferno app:tick:run" >> mycron
 sudo crontab -u www-data mycron
 sudo rm mycron

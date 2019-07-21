@@ -17,15 +17,18 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, :inline => "sudo service nginx restart", run: "always"
     config.vm.provision :shell, :inline => "sudo service mysql restart", run: "always"
 
-    config.trigger.after :up do |trigger|
-      trigger.name = "fsnotify"
-      trigger.info = "Running fsnotify"
-      trigger.run = {inline: "vagrant fsnotify"}
-    end
+#    config.trigger.after :up do |trigger|
+#      trigger.name = "fsnotify"
+#      trigger.info = "Running fsnotify"
+#      trigger.run = {inline: "vagrant fsnotify"}
+#    end
 
     config.vm.provider :virtualbox do |vb|
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
         vb.customize ["modifyvm", :id, "--chipset", "ich9" ]
         vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.customize ["modifyvm", :id, "--cpus", "1"]
+        vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         vb.customize ["modifyvm", :id, "--nictype1", "virtio" ]

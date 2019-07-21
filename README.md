@@ -33,8 +33,9 @@ Windows: C:\Windows\System32\drivers\etc\hosts
 ```
 2\. Append this.
 ```
-192.168.98.100 dev.galactic-conquest.net
-192.168.98.100 dev.phpmyadmin.net
+192.168.98.100 galactic-conquest.test
+192.168.98.100 forum.galactic-conquest.test
+192.168.98.100 phpmyadmin.test
 ```
 
 ### 4. Git Clone
@@ -42,7 +43,8 @@ Windows: C:\Windows\System32\drivers\etc\hosts
 **2\. Your current directory structure should looks like this and is necessary.**
 ```
 | workspace
-|--dev.galactic-conquest.net (https://github.com/galactic-conquest/galactic-conquest)
+|--galactic-conquest.test (https://github.com/galactic-conquest/galactic-conquest)
+|--forum.galactic-conquest.test
 |--devbox (https://github.net/galactic-conquest/devbox)
 |---Vagrantfile
 ```
@@ -72,7 +74,7 @@ vagrant up // starts vagrant machine (provisioning will start only once)
 
 Database
 ```
-http://dev.phpmyadmin.net
+http://phpmyadmin.test
 
 username: dev
 password: dev

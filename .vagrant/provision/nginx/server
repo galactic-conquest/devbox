@@ -1,26 +1,37 @@
 server {
-    listen 80;
-    server_name dev.phpmyadmin.net;
+      listen 80;
+      listen [::]:80;
+      server_name phpmyadmin.test;
+      root /usr/share/phpmyadmin/;
+      index index.php index.html index.htm index.nginx-debian.html;
 
-    root /usr/share/phpmyadmin;
-    index  index.php index.html index.htm;
+      access_log /var/log/nginx/phpmyadmin_access.log;
+      error_log /var/log/nginx/phpmyadmin_error.log;
 
-    error_log off;
-    access_log off;
+      location / {
+        try_files $uri $uri/ /index.php;
+      }
 
-    location ~ \.php$ {
-        try_files $uri =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+      location ~ ^/(doc|sql|setup)/ {
+        deny all;
+      }
+
+      location ~ \.php$ {
         fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
         fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
-    }
+      }
+
+      location ~ /\.ht {
+        deny all;
+      }
 }
 
 server {
     listen 80;
-    server_name "~^dev\..+\.(de|com|net)";
+    listen [::]:80;
+    server_name ~^[a-zA-Z0-9\-_]+\.test$;
 
     root /var/www/$host/public;
     index index.php;
@@ -43,6 +54,10 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
+
+    # don't log this
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
 
     # header
     add_header X-Frame-Options "SAMEORIGIN" always;
